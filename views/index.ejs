@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Grid Sample</title>
+	<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		window.INITIAL_STATE = {
+			databases: <%- JSON.stringify(databases) %>,
+			summary: {
+				dbCount: <%= databases.length %>,
+				rsCount: 234,
+				saCount: 12
+			},
+			grid: {
+				items: <%- JSON.stringify(databases) %>,
+				selectedLength: 5,
+				selectedPage: 1,
+				setLength: 5,
+				selectedSet: 1,
+				selectedItems: [],
+				colNames: [
+					{ key: 'id', value: 'ID' },
+					{ key: 'name', value: 'Name' },
+					{ key: 'description', value: 'Description' }
+				]
+			}
+		};		
+	</script>
+	<script src="/js/vendors/jquery.js"></script>
+	<script src="/js/bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+import fetch from 'isomorphic-fetch';
+
+export const FETCH_DBS                    = 'FETCH_DBS';
+export const RECEIVE_DBS                  = 'RECEIVE_DBS';
+export const FETCH_ERROR_DBS              = 'FETCH_ERROR_DBS';
+export const GRID_LENGTH_CHANGE           = 'GRID_LENGTH_CHANGE';
+export const GRID_PAGE_CHANGE             = 'GRID_PAGE_CHANGE';
+export const GRID_PAGE_SET_CHANGE         = 'GRID_PAGE_SET_CHANGE';
+
+// DB API
+export const DATABASE_API = 'api/databases';
+
+export function receiveDbs (dbs) {
+	return {
+		type: RECEIVE_DBS,
+		dbs
+	}
+}
+
+export function fetchDBs (params) {
+	return dispatch => {
+			// dispatch(requestDbs(subreddit))
+			return fetch(`${DATABASE_API}`)
+				.then(response => response.json())
+				.then(json => dispatch(receiveDbs(json)))
+	}
+}
+
+export function fetchDbsErr (err) {
+	return { type: FETCH_ERROR_DBS, err };
+} 
+
+export function gridLengthChange (length) {
+	return { type: GRID_LENGTH_CHANGE, length };
+}
+
+export function gridPageChange (page) {
+	return { type: GRID_PAGE_CHANGE, page };
+}
+
+export function gridPageSetChange (set) {
+	return { type: GRID_PAGE_SET_CHANGE, set};
+}

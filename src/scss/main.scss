@@ -1,0 +1,57 @@
+@import './../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import 'variables';
+
+html, body {
+	height  : 100%;
+	width   : 100%;
+	padding : 0;
+	margin  : 0;
+
+	background : $bg-gray-lightest;
+}
+
+#container {
+	display         : flex;
+	justify-content : center;
+	height          : 100%;
+	width           : 100%;
+	margin          : 0;
+	padding         : 0;
+	text-align      : center;
+
+	#app {
+		flex: 0 0 700px;
+		height  : 100%;
+		width   : 700px;
+		margin  : 0;
+		padding : 0;
+
+		h1 {
+			margin        : 0;
+			margin-bottom : 20px;
+			margin-top    : 20px;
+			color         : $primary-alt-dark;
+		}
+
+		#summary {
+			margin-top    : 10px;
+			margin-bottom : 10px;
+			height        : 30px;
+		}
+
+		#list {
+			margin-top: 20px;
+		}
+	}
+}
+
+.grid {
+	.grid-actions-main {
+		float: left;		
+	}
+
+	.grid-actions-length {
+		float: right;	
+	}
+}
+
