@@ -6,7 +6,8 @@ autoprefixer = require('gulp-autoprefixer'),
 minifycss    = require('gulp-clean-css'),
 concat       = require('gulp-concat'),
 webpack      = require('webpack'),
-config       = require('./webpack.config'),
+config       = require('./webpack.config.dev'),
+configPro    = require('./webpack.config'),
 path         = require('path');
 
 var src = {
@@ -53,6 +54,14 @@ gulp.task('js-build', function (done) {
 	});
 });
 
+gulp.task('js-build-pro', function (done) {
+	webpack(configPro).run(function (err, stats) {
+		if (err) console.log(err);
+		console.log(stats.toString());
+		done();
+	});
+});
+
 gulp.task('js-watch', function () {
 	webpack(config).watch(100, function (err, stats) {
 		if (err) console.log(err);
@@ -65,5 +74,6 @@ gulp.task('styles-watch', function() {
 });
 
 gulp.task('build', ['fonts', 'vendors', 'scss', 'js-build']);
+gulp.task('build-pro', ['fonts', 'vendors', 'scss', 'js-build-pro']);
 gulp.task('watch', ['styles-watch', 'js-watch']);
 gulp.task('default', ['build']);

@@ -10,6 +10,7 @@ module.exports = {
   progress: true,
   colors: true,
   inline: true,
+	devtool: '#eval-source-map',
 	resolve: {
 		moduleDirectories: ['./node_modules/', './src/js/'],
 		alias: {
