@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component }   from 'react';
+import { connect }            from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { gridSelectRow }      from './../actions';
 
-export default class GridTable extends Component {
+export class GridTable extends Component {
 	render () {
-		const { data, colNames, selectedLength, selectedPage } = this.props;
+		const { data, colNames, selectedLength, selectedPage, selectedItems, gridSelectRow } = this.props;
 		let rowCount = 0;
 
 		const headItems = colNames.map((x) => {
@@ -22,7 +25,7 @@ export default class GridTable extends Component {
 					return <th key={ key } >{ data[i][col.key] }</th>
 				});
 
-				bodyItems.push(<tr key={`tr-${rowCount++}`}>{ columnItems }</tr>); 
+				bodyItems.push(<tr className={ selectedItems[data[i].id] ? 'success' : '' } onClick={ () => { gridSelectRow(data[i].id); }} key={`tr-${rowCount++}`}>{ columnItems }</tr>); 
 			}
 		}
 
@@ -36,3 +39,13 @@ export default class GridTable extends Component {
 		);
 	}
 }
+
+function select (state) {
+  return {};
+}
+
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({ gridSelectRow }, dispatch);
+}
+
+export default connect(select, mapDispatchToProps)(GridTable);

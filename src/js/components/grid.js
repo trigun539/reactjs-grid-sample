@@ -8,6 +8,7 @@ export default class Grid extends Component {
 		const { grid } = this.props;
 		const {
 			items,
+			selectedItems,
 			selectedLength,
 			selectedPage,
 			selectedSet,
@@ -17,7 +18,7 @@ export default class Grid extends Component {
 
 		return (
 			<div id="grid" className="col-md-12">
-				<GridActions selectedLength={ selectedLength } />
+				<GridActions colNames={ colNames } selectedItems={ selectedItems } selectedLength={ selectedLength } />
 
 				<GridPagination 
 					recordCount={ items.length } 
@@ -26,7 +27,7 @@ export default class Grid extends Component {
 					setLength={ setLength }
 					selectedSet={ selectedSet }/>	
 
-				<GridTable data={ items } colNames={ colNames } selectedLength={ selectedLength } selectedPage={ selectedPage } />
+				<GridTable data={ items } selectedItems={ selectedItems } colNames={ colNames } selectedLength={ selectedLength } selectedPage={ selectedPage } />
 
 				<GridPagination 
 					recordCount={ items.length } 
