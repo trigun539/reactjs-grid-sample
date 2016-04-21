@@ -6,7 +6,14 @@ import { gridLengthChange }   from './../actions';
 export class GridActions extends Component {
 
 	render () {
-		const { selectedItems, colNames, selectedLength, gridLengthChange } = this.props;
+		const { 
+			selectedItems, 
+			colNames, 
+			selectedLength, 
+			selectedPage,
+			items,
+			gridLengthChange 
+		} = this.props;
 		const lengths = [5, 10, 20, 50, 100, 'All'];
 		const lengthItems = lengths.map((lengthItem) => {
 			return ( 
@@ -20,9 +27,13 @@ export class GridActions extends Component {
 		});
 
 		return (
-			<div id="grid-actions" className="col-md-12">
+			<div className="grid-actions col-md-4 col-xs-4">
 				<div className="btn-group grid-actions-main" role="group">
-					<button onClick={ (e) => { this.createCSV(selectedItems, colNames); } } className="btn btn-success"><i className="glyphicon glyphicon-floppy-save"></i></button>
+					<button 
+						onClick={ (e) => { this.createCSV(items, selectedPage, selectedLength, selectedItems, colNames); } } 
+						className="btn btn-success">
+						<i className="glyphicon glyphicon-floppy-save"></i>
+					</button>
 				</div>
 
 				<div className="btn-group grid-actions-length" role="group">
@@ -40,47 +51,65 @@ export class GridActions extends Component {
 		);
 	}
 
-	createCSV (selectedItems, colNames) {
-		const realData = [];
-		const data = [["name1", "city1", "some other info"], ["name2", "city2", "more info"]];
-		let csvContent = "data:text/csv;charset=utf-8,";
-		let dataString = '';
+	createCSV (items, selectedPage, selectedLength, selectedItems, colNames) {
+		var data = [];
+		var csvContent = "data:text/csv;charset=utf-8,";
+		var dataString;
+		var headerRow = [];
 
-		// Adding column names
-		const headerRow = [];
-		for (let i = 0; i < colNames.length; i++){
-			headerRow.push(colNames[i].value);
+		// Adding header row
+		for (let i = 0; i < colNames.length; i++) {
+			headerRow.push(colNames[i].key);	
 		}
 
-		realData.push(headerRow);
+		data.push(headerRow);
 
-		// Adding the content
+		var selectedItemKeys = Object.keys(selectedItems);
+		if (selectedItemKeys.length > 1) {
+			// Adding selected rows
+			for (let i = 0; i < selectedItemKeys.length; i++) {
+				let selectedRow = [];
+				let rowItem = selectedItems[selectedItemKeys[i]];
+				
+				for (let j = 0; j < colNames.length; j++) {
+					let rowCol = rowItem[colNames[j].key];
+					let rowColValue = /[,]/.test(rowCol) ? `"${rowCol}"` : rowCol;
+					selectedRow.push(rowColValue);
+				}
 
-		const bodyItems = Object.keys(selectedItems).map((itemIdKey) => {
-			const rowArr = Object.keys(selectedItems[itemIdKey]).map((rowItemColKey) => {
-				return selectedItems[itemIdKey][rowItemColKey];
-			});
-			return rowArr;	
-		});
-		
-		for (let i = 0; i < bodyItems.length; i++) {
-			realData.push(bodyItems[i]);	
+				data.push(selectedRow);
+			}
+		} else {
+			const start = selectedPage * selectedLength - selectedLength;
+			const end = selectedPage * selectedLength;
+
+			if (items.length > 0) {
+				for (let i = start; i < end; i++) {
+					let rowItem = items[i];
+					let rowData = [];
+
+					for (let j = 0; j < colNames.length; j++) {
+						let rowCol = rowItem[colNames[j].key];
+						let rowColValue = /[,]/.test(rowCol) ? `"${rowCol}"` : rowCol;
+						rowData.push(rowColValue);
+					}
+
+					data.push(rowData); 
+				}
+			}
 		}
-
-		console.log('body items!!', bodyItems);
-		console.log('THE REAL DATA: ', realData);
-
-		realData.forEach(function(infoArray, index){
+	
+		data.forEach(function(infoArray, index){
 			dataString = infoArray.join(",");
 			csvContent += index < data.length ? dataString+ "\n" : dataString;
 		}); 
 
-		const encodedUri = encodeURI(csvContent);
-		const link = document.createElement("a");
+		var encodedUri = encodeURI(csvContent);
+		var link = document.createElement("a");
 		link.setAttribute("href", encodedUri);
-		link.setAttribute("download", "grid-export.csv");
+		link.setAttribute("download", "my_grid_export.csv");
 
-		link.click();
+		link.click(); // This will download the data file named "my_data.csv".
 	}
 }
 

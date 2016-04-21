@@ -90,11 +90,13 @@ export class GridPagination extends Component {
 		}
 
 		return (
-			<nav className="grid-pagination">
-				<ul className="pagination">
-					{ pageBtns }
-				</ul>
-			</nav>
+			<div className="col-md-8 col-xs-8">
+				<nav className="grid-pagination">
+					<ul className="pagination">
+						{ pageBtns }
+					</ul>
+				</nav>
+			</div>
 		);
 	}
 }

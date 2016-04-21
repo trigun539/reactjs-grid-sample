@@ -2,7 +2,6 @@ import React, { Component }   from 'react';
 import { connect }            from 'react-redux';
 import List                   from './list';
 import Grid                   from './grid';
-import Summary                from './summary';
 
 export class App extends Component {
 	
@@ -15,7 +14,6 @@ export class App extends Component {
 				<div id="form" className="col-md-12">
 					<input type="text" className="form-control" placeholder="Database, Record, Area" />
 				</div>
-				<Summary />
 				<Grid grid={ grid } />
 			</div>
 		);

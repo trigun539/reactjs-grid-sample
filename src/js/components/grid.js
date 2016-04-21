@@ -18,15 +18,18 @@ export default class Grid extends Component {
 
 		return (
 			<div id="grid" className="col-md-12">
-				<GridActions colNames={ colNames } selectedItems={ selectedItems } selectedLength={ selectedLength } />
+				<div className="row">
+					<GridActions items={ items } selectedPage={ selectedPage } colNames={ colNames } selectedItems={ selectedItems } selectedLength={ selectedLength } />
 
-				<GridPagination 
-					recordCount={ items.length } 
-					selectedPage={ selectedPage } 
-					selectedLength={ selectedLength } 
-					setLength={ setLength }
-					selectedSet={ selectedSet }/>	
+					<GridPagination 
+						recordCount={ items.length } 
+						selectedPage={ selectedPage } 
+						selectedLength={ selectedLength } 
+						setLength={ setLength }
+						selectedSet={ selectedSet }/>	
 
+				</div>
+				
 				<GridTable data={ items } selectedItems={ selectedItems } colNames={ colNames } selectedLength={ selectedLength } selectedPage={ selectedPage } />
 
 				<GridPagination 

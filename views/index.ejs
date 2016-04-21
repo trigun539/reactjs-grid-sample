@@ -10,11 +10,6 @@
 	<script>
 		window.INITIAL_STATE = {
 			databases: <%- JSON.stringify(databases) %>,
-			summary: {
-				dbCount: <%= databases.length %>,
-				rsCount: 234,
-				saCount: 12
-			},
 			grid: {
 				items: <%- JSON.stringify(databases) %>,
 				selectedLength: 5,

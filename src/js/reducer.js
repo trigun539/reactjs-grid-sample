@@ -16,19 +16,16 @@ export const databases = (state = window.INITIAL_STATE.databases, action) => {
   }
 };
 
-export const summary = (state = window.INITIAL_STATE.summary, action) => {
-  switch (action.type) {
-  default:
-    return state;
-  }
-};
-
 export const grid = (state = window.INITIAL_STATE.grid, action) => {
   switch (action.type) {
 	case RECEIVE_DBS:
 		return {...state, items: [...action.dbs]};
 	case GRID_LENGTH_CHANGE:
-		return {...state, selectedPage: 1, selectedLength: action.length, selectedPageSet: 1};
+		if (action.length === 'All') {
+			return {...state, selectedPage: 1, selectedLength: state.items.length, selectedPageSet: 1, selectedItems: {}};
+		} else {
+			return {...state, selectedPage: 1, selectedLength: action.length, selectedPageSet: 1, selectedItems: {}};
+		}
 	case GRID_PAGE_CHANGE:
 		const setEnd   = state.selectedSet * state.setLength;
 		const setStart = (state.selectedSet - 1) * state.setLength + 1;
@@ -71,6 +68,5 @@ export const grid = (state = window.INITIAL_STATE.grid, action) => {
 
 export const appReducer = combineReducers({
   databases,
-	summary,
 	grid
 });
