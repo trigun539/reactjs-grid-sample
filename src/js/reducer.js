@@ -22,15 +22,17 @@ export const grid = (state = window.INITIAL_STATE.grid, action) => {
 		return {...state, items: [...action.dbs]};
 	case GRID_LENGTH_CHANGE:
 		if (action.length === 'All') {
-			return {...state, selectedPage: 1, selectedLength: state.items.length, selectedPageSet: 1, selectedItems: {}};
+			return {...state, selectedPage: 1, selectedLength: state.items.length, selectedSet: 1, selectedItems: {}};
 		} else {
-			return {...state, selectedPage: 1, selectedLength: action.length, selectedPageSet: 1, selectedItems: {}};
+			return {...state, selectedPage: 1, selectedLength: action.length, selectedSet: 1, selectedItems: {}};
 		}
 	case GRID_PAGE_CHANGE:
 		const setEnd   = state.selectedSet * state.setLength;
 		const setStart = (state.selectedSet - 1) * state.setLength + 1;
 
-		if (action.page < setStart) {
+		if (action.page === state.selectedPage) {
+			return {...state};
+		} else if (action.page < setStart) {
 			return {...state, selectedPage: action.page, selectedSet: state.selectedSet - 1, selectedItems: {}};	
 		} else if (action.page > setEnd) {
 			return {...state, selectedPage: action.page, selectedSet: state.selectedSet + 1, selectedItems: {}};	
