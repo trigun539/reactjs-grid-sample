@@ -34,9 +34,9 @@ export const grid = (state = window.INITIAL_STATE.grid, action) => {
 		const setStart = (state.selectedSet - 1) * state.setLength + 1;
 
 		if (action.page < setStart) {
-			return {...state, selectedPage: action.page, selectedSet: state.selectedSet - 1};	
+			return {...state, selectedPage: action.page, selectedSet: state.selectedSet - 1, selectedItems: {}};	
 		} else if (action.page > setEnd) {
-			return {...state, selectedPage: action.page, selectedSet: state.selectedSet + 1};	
+			return {...state, selectedPage: action.page, selectedSet: state.selectedSet + 1, selectedItems: {}};	
 		} else {
 			return {...state, selectedPage: action.page};	
 		}	
@@ -45,7 +45,7 @@ export const grid = (state = window.INITIAL_STATE.grid, action) => {
 		const sets  = Math.ceil(pages / state.setLength);
 
 		if (action.set >= 1 && action.set <= sets) {
-			return { ...state, selectedSet: action.set, selectedPage: ((action.set - 1) * state.setLength + 1) };
+			return { ...state, selectedSet: action.set, selectedPage: ((action.set - 1) * state.setLength + 1), selectedItems: {} };
 		}
 	case GRID_SELECT_ROW:
 		const rowID = action.rowID;

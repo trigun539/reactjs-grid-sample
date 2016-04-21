@@ -1,9 +1,8 @@
 var express        = require('express');
 var app            = express();
-var databases      = require('./data/sample-databases.json');
+var databases      = require('./data/sample-dbs.json');
 var methodOverride = require('method-override');
 var bodyParser     = require('body-parser');
-
 
 /*
  * APP Configuration
