@@ -19,7 +19,11 @@ export class GridTable extends Component {
 		if (data.length > 0) {
 			for (let i = start; i < end; i++) {
 				let colCount = 0;
-				
+		
+				if (!data[i]) {
+					break;	
+				}
+
 				const columnItems = colNames.map((col) => {
 					const key = `row-${rowCount}-col${colCount++}`;
 					return <th key={ key } >{ data[i][col.key] }</th>

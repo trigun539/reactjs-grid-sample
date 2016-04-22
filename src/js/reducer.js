@@ -28,7 +28,7 @@ export const grid = (state = window.INITIAL_STATE.grid, action) => {
 		let filteredItems = originalItems.filter((item) => {
 			return reg.test(item.id) || reg.test(item.name) || reg.test(item.description);
 		});
-		return {...state, items: [...filteredItems]};
+		return {...state, items: [...filteredItems], selectedItems: {}};
 	case GRID_LENGTH_CHANGE:
 		if (action.length === 'All') {
 			return {...state, selectedPage: 1, selectedLength: state.items.length, selectedSet: 1, selectedItems: {}};
