@@ -9,17 +9,21 @@ export class GridPagination extends Component {
 		const { 
 			recordCount, 
 			selectedPage, 
-			selectedLength, 
 			setLength, 
 			selectedSet,
 			gridPageChange, 
 			gridPaginationStartChange,
 			gridPageSetChange
 		} = this.props;
+		let { selectedLength } = this.props;
 
 		const pageBtns = [];
 		const pages    = Math.ceil(recordCount / selectedLength);
 		const pageSets = Math.ceil(pages / setLength);
+
+		if (selectedLength === 'All') {
+			selectedLength = recordCount;	
+		}
 
 		// Adding Previous
 		if (selectedPage !== 1 && pages > 1) {

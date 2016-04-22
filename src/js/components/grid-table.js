@@ -5,8 +5,13 @@ import { gridSelectRow }      from './../actions';
 
 export class GridTable extends Component {
 	render () {
-		const { data, colNames, selectedLength, selectedPage, selectedItems, gridSelectRow } = this.props;
+		const { data, colNames, selectedPage, selectedItems, gridSelectRow } = this.props;
+		let { selectedLength } = this.props;
 		let rowCount = 0;
+
+		if (selectedLength === 'All') {
+			selectedLength = data.length;	
+		}
 
 		const headItems = colNames.map((x) => {
 			return <th key={x.key} >{x.value}</th>	

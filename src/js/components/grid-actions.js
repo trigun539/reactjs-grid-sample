@@ -28,25 +28,25 @@ export class GridActions extends Component {
 
 		return (
 			<div className="grid-actions col-md-4 col-xs-4">
-			<div className="btn-group grid-actions-main" role="group">
-			<button 
-			onClick={ (e) => { this.createCSV(items, selectedPage, selectedLength, selectedItems, colNames); } } 
-			className="btn btn-success">
-			<img src="/img/export.png" width="20"/>		
-			</button>
-			</div>
+				<div className="btn-group grid-actions-main" role="group">
+					<button 
+						onClick={ (e) => { this.createCSV(items, selectedPage, selectedLength, selectedItems, colNames); } } 
+						className="btn btn-success">
+							<img src="/img/export.png" width="20"/>		
+					</button>
+				</div>
 
-			<div className="btn-group grid-actions-length" role="group">
-			<div className="dropdown">
-			<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-			{selectedLength}
-			<span className="caret"></span>
-			</button>
-			<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-			{lengthItems}
-			</ul>
-			</div>
-			</div>
+				<div className="btn-group grid-actions-length" role="group">
+					<div className="dropdown">
+						<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						{selectedLength}
+							<span className="caret"></span>
+						</button>
+						<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
+							{lengthItems}
+						</ul>
+					</div>
+				</div>
 			</div>
 		);
 	}
@@ -55,6 +55,10 @@ export class GridActions extends Component {
 		var data = [];
 		var headerRow = [];
 
+		if (selectedLength === 'All') {
+			selectedLength = items.length;	
+		}
+		
 		// Adding header row
 		for (let i = 0; i < colNames.length; i++) {
 			headerRow.push(colNames[i].key);	
@@ -84,6 +88,10 @@ export class GridActions extends Component {
 				for (let i = start; i < end; i++) {
 					let rowItem = items[i];
 					let rowData = [];
+
+					if (!rowItem) {
+						break;
+					}
 
 					for (let j = 0; j < colNames.length; j++) {
 						let rowCol = rowItem[colNames[j].key];
