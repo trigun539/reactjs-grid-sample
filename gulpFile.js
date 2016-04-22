@@ -45,6 +45,9 @@ gulp.task('scss', function() {
   })
   .pipe(autoprefixer())
   .pipe(concat('main.css'))
+  .pipe(minifycss({
+		keepSpecialComments: 0
+	}))
   .pipe(gulp.dest('./build/css'));
 });
 
