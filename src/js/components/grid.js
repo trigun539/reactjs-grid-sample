@@ -13,7 +13,8 @@ export default class Grid extends Component {
 			selectedPage,
 			selectedSet,
 			setLength,
-			colNames
+			colNames,
+			sort
 		} = grid;
 
 		return (
@@ -30,7 +31,13 @@ export default class Grid extends Component {
 
 				</div>
 				
-				<GridTable data={ items } selectedItems={ selectedItems } colNames={ colNames } selectedLength={ selectedLength } selectedPage={ selectedPage } />
+				<GridTable 
+					data={ items } 
+					selectedItems={ selectedItems } 
+					colNames={ colNames } 
+					selectedLength={ selectedLength } 
+					selectedPage={ selectedPage }
+					sort={ sort } />
 
 				<GridPagination 
 					recordCount={ items.length } 

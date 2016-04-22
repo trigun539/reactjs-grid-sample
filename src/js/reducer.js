@@ -5,7 +5,8 @@ import {
 	GRID_PAGE_CHANGE,
 	GRID_PAGE_SET_CHANGE,
 	GRID_SELECT_ROW,
-	GRID_FILTER
+	GRID_FILTER,
+	GRID_SORT
 } from './actions';
 
 export const databases = (state = window.INITIAL_STATE.databases, action) => {
@@ -23,6 +24,8 @@ export const grid = (state = window.INITIAL_STATE.grid, action) => {
   switch (action.type) {
 	case RECEIVE_DBS:
 		return {...state, items: [...action.dbs]};
+	case GRID_SORT:
+		return {...state, sort: { col: action.sort.col, dir: action.sort.dir }}; 
 	case GRID_FILTER:
 		const reg = new RegExp(action.filterText);	
 		let filteredItems = originalItems.filter((item) => {
