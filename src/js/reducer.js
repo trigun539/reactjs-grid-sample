@@ -34,7 +34,7 @@ export const grid = (state = window.INITIAL_STATE.grid, action) => {
 		let filteredItems = originalItems.filter((item) => {
 			return reg.test(item.id) || reg.test(item.name) || reg.test(item.description);
 		});
-		return {...state, items: [...filteredItems], selectedItems: {}, selectedSet: 1, selectedPage: 1};
+		return {...state, searchText: action.filterText, items: [...filteredItems], selectedItems: {}, selectedSet: 1, selectedPage: 1};
 	case GRID_LENGTH_CHANGE:
 		return {...state, selectedPage: 1, selectedLength: action.length, selectedSet: 1, selectedItems: {}};
 	case GRID_PAGE_CHANGE:
