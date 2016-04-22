@@ -6,6 +6,7 @@ autoprefixer = require('gulp-autoprefixer'),
 minifycss    = require('gulp-clean-css'),
 concat       = require('gulp-concat'),
 uglify       = require('gulp-uglify'),
+imgop        = require('gulp-image-optimization'),
 webpack      = require('webpack'),
 config       = require('./webpack.config.dev'),
 configPro    = require('./webpack.config'),
@@ -33,6 +34,11 @@ gulp.task('vendors', function () {
 
 gulp.task('img', function () {
 	gulp.src(src.img)
+		.pipe(imgop({
+			optimizationLevel: 5,
+			progressive: true,
+			interlaced: true
+		}))
 		.pipe(gulp.dest('./build/img'));
 });
 
