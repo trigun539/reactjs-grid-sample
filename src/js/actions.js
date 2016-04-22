@@ -7,6 +7,7 @@ export const GRID_LENGTH_CHANGE   = 'GRID_LENGTH_CHANGE';
 export const GRID_PAGE_CHANGE     = 'GRID_PAGE_CHANGE';
 export const GRID_PAGE_SET_CHANGE = 'GRID_PAGE_SET_CHANGE';
 export const GRID_SELECT_ROW      = 'GRID_SELECT_ROW';
+export const GRID_FILTER          = 'GRID_FILTER';
 
 // DB API
 export const DATABASE_API = 'api/databases';
@@ -45,4 +46,8 @@ export function gridPageSetChange (set) {
 
 export function gridSelectRow(rowID) {
 	return { type: GRID_SELECT_ROW, rowID};
+}
+
+export function gridFilter (filterText) {
+	return { type: GRID_FILTER, filterText };
 }

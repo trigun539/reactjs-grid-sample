@@ -4,7 +4,8 @@ import {
 	GRID_LENGTH_CHANGE,
 	GRID_PAGE_CHANGE,
 	GRID_PAGE_SET_CHANGE,
-	GRID_SELECT_ROW
+	GRID_SELECT_ROW,
+	GRID_FILTER
 } from './actions';
 
 export const databases = (state = window.INITIAL_STATE.databases, action) => {
@@ -17,9 +18,17 @@ export const databases = (state = window.INITIAL_STATE.databases, action) => {
 };
 
 export const grid = (state = window.INITIAL_STATE.grid, action) => {
+	const originalItems = window.INITIAL_STATE.databases;
+
   switch (action.type) {
 	case RECEIVE_DBS:
 		return {...state, items: [...action.dbs]};
+	case GRID_FILTER:
+		const reg = new RegExp(action.filterText);	
+		let filteredItems = originalItems.filter((item) => {
+			return reg.test(item.id) || reg.test(item.name) || reg.test(item.description);
+		});
+		return {...state, items: [...filteredItems]};
 	case GRID_LENGTH_CHANGE:
 		if (action.length === 'All') {
 			return {...state, selectedPage: 1, selectedLength: state.items.length, selectedSet: 1, selectedItems: {}};
