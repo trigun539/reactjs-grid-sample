@@ -17,44 +17,42 @@ export class GridActions extends Component {
 		const lengths = [5, 10, 20, 50, 100, 'All'];
 		const lengthItems = lengths.map((lengthItem) => {
 			return ( 
-				<li 
-					key={lengthItem} 
-					className={ lengthItem === selectedLength ? 'active' : ''}
-					onClick={ (e) => { e.preventDefault(); gridLengthChange(lengthItem); }  }>
-						<a href="#">{ lengthItem }</a>
-				</li>
-			);
+							<li 
+							key={lengthItem} 
+							className={ lengthItem === selectedLength ? 'active' : ''}
+							onClick={ (e) => { e.preventDefault(); gridLengthChange(lengthItem); }  }>
+							<a href="#">{ lengthItem }</a>
+							</li>
+						 );
 		});
 
 		return (
 			<div className="grid-actions col-md-4 col-xs-4">
-				<div className="btn-group grid-actions-main" role="group">
-					<button 
-						onClick={ (e) => { this.createCSV(items, selectedPage, selectedLength, selectedItems, colNames); } } 
-						className="btn btn-success">
-						<i className="glyphicon glyphicon-floppy-save"></i>
-					</button>
-				</div>
+			<div className="btn-group grid-actions-main" role="group">
+			<button 
+			onClick={ (e) => { this.createCSV(items, selectedPage, selectedLength, selectedItems, colNames); } } 
+			className="btn btn-success">
+			<img src="/img/export.png" width="20"/>		
+			</button>
+			</div>
 
-				<div className="btn-group grid-actions-length" role="group">
-					<div className="dropdown">
-						<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						{selectedLength}
-							<span className="caret"></span>
-						</button>
-						<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-							{lengthItems}
-						</ul>
-					</div>
-				</div>
+			<div className="btn-group grid-actions-length" role="group">
+			<div className="dropdown">
+			<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			{selectedLength}
+			<span className="caret"></span>
+			</button>
+			<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
+			{lengthItems}
+			</ul>
+			</div>
+			</div>
 			</div>
 		);
 	}
 
 	createCSV (items, selectedPage, selectedLength, selectedItems, colNames) {
 		var data = [];
-		var csvContent = "data:text/csv;charset=utf-8,";
-		var dataString;
 		var headerRow = [];
 
 		// Adding header row
@@ -70,11 +68,10 @@ export class GridActions extends Component {
 			for (let i = 0; i < selectedItemKeys.length; i++) {
 				let selectedRow = [];
 				let rowItem = selectedItems[selectedItemKeys[i]];
-				
+
 				for (let j = 0; j < colNames.length; j++) {
 					let rowCol = rowItem[colNames[j].key];
-					let rowColValue = /[,]/.test(rowCol) ? `"${rowCol}"` : rowCol;
-					selectedRow.push(rowColValue);
+					selectedRow.push(rowCol);
 				}
 
 				data.push(selectedRow);
@@ -90,35 +87,66 @@ export class GridActions extends Component {
 
 					for (let j = 0; j < colNames.length; j++) {
 						let rowCol = rowItem[colNames[j].key];
-						let rowColValue = /[,]/.test(rowCol) ? `"${rowCol}"` : rowCol;
-						rowData.push(rowColValue);
+						rowData.push(rowCol);
 					}
 
 					data.push(rowData); 
 				}
 			}
 		}
-	
-		data.forEach(function(infoArray, index){
-			dataString = infoArray.join(",");
-			csvContent += index < data.length ? dataString+ "\n" : dataString;
-		}); 
 
-		var encodedUri = encodeURI(csvContent);
-		var link = document.createElement("a");
-		link.setAttribute("href", encodedUri);
-		link.setAttribute("download", "my_grid_export.csv");
+		this.exportToCsv('my-grid-export.csv', data);
+	}
 
-		link.click(); // This will download the data file named "my_data.csv".
+	exportToCsv (filename, rows) {
+		function processRow (row) {
+			var finalVal = '';
+			for (var j = 0; j < row.length; j++) {
+				var innerValue = row[j] === null ? '' : row[j].toString();
+				if (row[j] instanceof Date) {
+					innerValue = row[j].toLocaleString();
+				};
+				var result = innerValue.replace(/"/g, '""');
+				if (result.search(/("|,|\n)/g) >= 0)
+					result = '"' + result + '"';
+				if (j > 0)
+					finalVal += ',';
+				finalVal += result;
+			}
+			return finalVal + '\n';
+		};
+
+		var csvFile = '';
+
+		for (var i = 0; i < rows.length; i++) {
+			csvFile += processRow(rows[i]);
+		}
+
+		const blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
+		if (navigator.msSaveBlob) { // IE 10+
+			navigator.msSaveBlob(blob, filename);
+		} else {
+			const link = document.createElement("a");
+			if (link.download !== undefined) { // feature detection
+				// Browsers that support HTML5 download attribute
+				const url = URL.createObjectURL(blob);
+				link.setAttribute("href", url);
+				link.setAttribute("download", filename);
+				link.style.visibility = 'hidden';
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+			}
+		}
 	}
 }
 
 function select (state) {
-  return {};
+	return {};
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ gridLengthChange }, dispatch);
+	return bindActionCreators({ gridLengthChange }, dispatch);
 }
 
 export default connect(select, mapDispatchToProps)(GridActions);

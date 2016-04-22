@@ -11,7 +11,8 @@ configPro    = require('./webpack.config'),
 path         = require('path');
 
 var src = {
-  scss: './src/scss/**/*'
+  scss : './src/scss/**/*',
+	img  : './src/img/**/*'
 };
 
 /**
@@ -26,6 +27,11 @@ gulp.task('fonts', function () {
 gulp.task('vendors', function () {
 	gulp.src('./node_modules/jquery/dist/jquery.js')
 		.pipe(gulp.dest('./build/js/vendors'));
+});
+
+gulp.task('img', function () {
+	gulp.src(src.img)
+		.pipe(gulp.dest('./build/img'));
 });
 
 /**
@@ -73,7 +79,7 @@ gulp.task('styles-watch', function() {
     gulp.watch('src/scss/**/*', ['scss']);
 });
 
-gulp.task('build', ['fonts', 'vendors', 'scss', 'js-build']);
-gulp.task('build-pro', ['fonts', 'vendors', 'scss', 'js-build-pro']);
+gulp.task('build', ['fonts', 'vendors', 'img', 'scss', 'js-build']);
+gulp.task('build-pro', ['fonts', 'vendors', 'img', 'scss', 'js-build-pro']);
 gulp.task('watch', ['styles-watch', 'js-watch']);
 gulp.task('default', ['build']);
