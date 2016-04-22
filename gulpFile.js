@@ -5,6 +5,7 @@ sass         = require('gulp-ruby-sass'),
 autoprefixer = require('gulp-autoprefixer'),
 minifycss    = require('gulp-clean-css'),
 concat       = require('gulp-concat'),
+uglify       = require('gulp-uglify'),
 webpack      = require('webpack'),
 config       = require('./webpack.config.dev'),
 configPro    = require('./webpack.config'),
@@ -26,6 +27,7 @@ gulp.task('fonts', function () {
 
 gulp.task('vendors', function () {
 	gulp.src('./node_modules/jquery/dist/jquery.js')
+		.pipe(uglify())
 		.pipe(gulp.dest('./build/js/vendors'));
 });
 
