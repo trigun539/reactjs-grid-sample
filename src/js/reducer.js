@@ -48,7 +48,7 @@ export const grid = (state = window.INITIAL_STATE.grid, action) => {
 		} else if (action.page > setEnd) {
 			return {...state, selectedPage: action.page, selectedSet: state.selectedSet + 1, selectedItems: {}};	
 		} else {
-			return {...state, selectedPage: action.page};	
+			return {...state, selectedPage: action.page, selectedItems: {}};	
 		}	
 	case GRID_PAGE_SET_CHANGE:
 		const pages = Math.ceil(state.items.length / state.selectedLength);
