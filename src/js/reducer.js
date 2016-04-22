@@ -18,6 +18,9 @@ export const databases = (state = window.INITIAL_STATE.databases, action) => {
   }
 };
 
+// Adding dbs to grid
+window.INITIAL_STATE.grid.items = window.INITIAL_STATE.databases;
+
 export const grid = (state = window.INITIAL_STATE.grid, action) => {
 	const originalItems = window.INITIAL_STATE.databases;
 
