@@ -25,7 +25,7 @@ export class App extends Component {
 				<h1 className="col-md-12">Grid Test</h1>
 				<Link to="second" style={ {marginBottom: '20px'} } className="btn btn-info">Go to second page</Link>
 				<div id="form" className="col-md-12">
-					<input type="text" onKeyUp={ (e) => { this.keyUp(e); } } ref="searchInput" className="form-control" placeholder="Search" defaultValue={ grid.searchText } />
+					<input type="text" onKeyUp={ (e) => { this.keyUp(e); } } ref="searchInput" className="form-control" placeholder="Filter" defaultValue={ grid.searchText } />
 				</div>
 				<Grid grid={ grid } />
 			</div>
